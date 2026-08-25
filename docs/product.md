@@ -32,11 +32,13 @@ The first product release will be read-only and should let a visitor:
 - filter recommendations through simple deterministic facets;
 - open a recommendation and understand why Sophia recommends it.
 
-The canonical future entity is a `Recommendation`, not a `Place`. Recommendations may represent restaurants, activities, neighborhoods, outdoor experiences, day trips, or other experiences.
+The canonical entity is a `Recommendation`, not a `Place`. Recommendations may represent restaurants, activities, neighborhoods, outdoor experiences, day trips, or other experiences.
 
-## Foundation phase
+## Current phase
 
-The current foundation phase establishes the application scaffold, engineering workflow, documentation, Copilot instructions, and continuous integration. It intentionally contains no recommendation model, data, catalog interface, filtering, or detail routes.
+The foundation phase established the application scaffold, engineering workflow, documentation, Copilot instructions, and continuous integration.
+
+The current phase defines the canonical `Recommendation` domain model, its curated content module, and its tests. It intentionally contains no catalog interface, filtering, or detail routes. See `docs/content-model.md` for the content contract.
 
 ## Later capabilities
 

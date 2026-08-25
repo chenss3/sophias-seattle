@@ -47,7 +47,8 @@ Run `npm run check` before opening or updating a pull request.
 
 - [Product principles and scope](docs/product.md)
 - [Architecture](docs/architecture.md)
-- [Foundation decision record](docs/decisions/0001-foundation.md)
+- [Content model](docs/content-model.md)
+- [Decision records](docs/decisions/)
 
 ## Development workflow
 
