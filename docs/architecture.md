@@ -8,18 +8,19 @@ This single-application architecture is intentional. It supplies routing, metada
 
 ## Repository boundaries
 
-The foundation contains only route-level application files and test setup. Future directories should be added when their first concrete implementation requires them, not pre-created as placeholders.
+The repository currently contains route-level application files, test setup, the recommendation domain model, and curated content. Future directories should be added when their first concrete implementation requires them, not pre-created as placeholders.
 
-When recommendation features begin, dependency direction should be:
+Dependency direction is:
 
 ```text
-routes/pages -> feature components -> domain queries/types -> curated content
-                    |
-                    `-> reusable UI primitives
+routes/pages -> feature components -> domain queries/types
+     |                  |
+     |                  `-> reusable UI primitives
+     `-> curated content
 ```
 
 - `src/app` owns routes, layouts, metadata, and route-level composition.
-- Domain code owns pure business rules and must not import React or Next.js.
+- Domain code owns pure business rules and imports nothing: not React, not Next.js, not curated content. Queries take the data they operate on as parameters, so route code composes content with queries and tests can run against fixtures.
 - Curated content must satisfy domain TypeScript contracts and contain no rendering logic.
 - Feature components may depend on domain code and reusable UI primitives.
 - UI primitives must not know about recommendations or content provenance.
@@ -27,12 +28,13 @@ routes/pages -> feature components -> domain queries/types -> curated content
 
 ## Content and provenance
 
-The future curated catalog will be typed TypeScript data committed to GitHub. Git history and pull requests will be the initial editorial workflow.
+The curated catalog is typed TypeScript data committed to GitHub. Git history and pull requests are the editorial workflow. `docs/content-model.md` is the field-level contract.
 
 Provenance is a domain boundary:
 
-- Sophia-curated recommendations are immutable application input at runtime.
-- Future visitor-added items belong to separate persistence and presentation.
+Sophia-curated recommendations are immutable application input at runtime and carry an explicit `provenance` literal so the boundary is compiler-enforced rather than a review responsibility.
+
+- Future visitor-added items belong to separate types, persistence, and presentation.
 - Future external suggestions must remain distinct from Sophia's endorsements.
 
 Runtime schema validation is unnecessary while trusted, typed content is compiled with the application. Add validation only when a real runtime trust boundary appears.
