@@ -16,6 +16,11 @@
 - Create reusable UI primitives only after concrete product use demonstrates reuse. Keep Tailwind usage aligned with the repository's semantic tokens once those tokens exist.
 - Preserve provenance as a first-class boundary: Sophia-curated recommendations, visitor-added items, and external suggestions must never be conflated in types, storage, or presentation.
 
+## Content and writing
+
+- When creating or editing Sophia-curated recommendation content, follow the editorial rules in `docs/content-model.md`. Preserve Sophia's voice, keep `why` solely grounded in Sophia-provided reasoning, and never invent personal opinions or experiences.
+- Do not use em dashes in generated prose or documentation.
+
 ## Quality
 
 - Add or update behavior-focused tests when behavior changes. Prefer domain and user-visible behavior tests over implementation details, broad snapshots, or trivial static-rendering tests.

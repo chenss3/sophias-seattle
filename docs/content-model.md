@@ -48,6 +48,19 @@ Slugs are lowercase, hyphen-separated, and made of letters and digits only. Chan
 
 Visitor-added items and external suggestions will get their own types and their own storage. They must never be added to this file.
 
+## Editorial voice
+
+Sophia's voice is the product. These rules apply to anyone editing curated content, human or agent.
+
+- **Preserve Sophia's voice.** Do not rewrite recommendations into generic travel-guide, marketing, or AI-generated copy. Slang, capitalisation for emphasis, and informal asides are intentional.
+- **`why` comes only from Sophia.** It must be based solely on opinions, experiences, memories, and reasoning Sophia has provided.
+- **External research is for facts, not opinions.** It may enrich `summary`, `tags`, and `notes`. It must never be used to invent or expand a `why`.
+- **Edit lightly.** Grammar, spelling, and readability fixes are fine. They must not change tone, emphasis, humour, strong opinions, or meaning.
+- **Keep the specifics.** Personal anecdotes and memorable phrasing usually carry the reasoning. Preserve them.
+- **Flag gaps, do not fill them.** If a `why` reads as incomplete, raise it with Sophia rather than supplying the missing reasoning.
+- **Invent nothing.** No fabricated experiences, preferences, factual claims, or endorsements.
+- **No em dashes** in recommendation content.
+
 ## Classification
 
 Classification uses two independent axes, because "what it is" and "what it is good for" are different questions. Collapsing them into a single tag list would make coherent filtering impossible later.
