@@ -1,27 +1,51 @@
 /**
  * What a recommendation is. The primary browse axis.
  *
- * Deliberately minimal: values are added alongside the first recommendation
- * that needs them rather than designed up front.
+ * Values are added alongside the first recommendation that needs them rather
+ * than designed up front.
  */
-export type RecommendationKind = "restaurant" | "activity";
+export type RecommendationKind = "restaurant" | "bakery" | "dessert";
 
 /**
- * What a recommendation is good for. A secondary axis.
+ * What a recommendation is good for, or what characterises it. A secondary axis.
  *
- * Deliberately minimal: values are added alongside the first recommendation
- * that needs them rather than designed up front.
+ * Covers both occasion ("date-night", "quick-meal") and character
+ * ("hidden-gem", "great-service"). Kept deliberately small: a tag has to be
+ * useful for finding a recommendation, not merely true about it. Details
+ * specific to one place -- a signature dish, a rotating menu -- belong in
+ * `summary`, `why`, or `notes`.
  */
-export type RecommendationTag = "date-night" | "rainy-day";
+export type RecommendationTag =
+  | "budget-friendly"
+  | "casual"
+  | "cocktails"
+  | "customizable"
+  | "date-night"
+  | "great-service"
+  | "group-friendly"
+  | "happy-hour"
+  | "hidden-gem"
+  | "quick-meal"
+  | "sweet-treat"
+  | "unique-flavors"
+  | "unique-seattle"
+  | "vegan-friendly"
+  | "worth-the-wait";
 
 /**
  * Where a recommendation is. Named for location generally rather than
  * "neighborhood" so it can also describe places outside Seattle proper.
  *
- * Deliberately minimal: values are added alongside the first recommendation
- * that needs them rather than designed up front.
+ * Values are added alongside the first recommendation that needs them rather
+ * than designed up front.
  */
-export type Area = "Ballard" | "Capitol Hill";
+export type Area =
+  | "Bitter Lake"
+  | "Capitol Hill"
+  | "Fremont"
+  | "Hillman City"
+  | "Pike Place"
+  | "South Lake Union";
 
 /**
  * A single Sophia-curated recommendation.

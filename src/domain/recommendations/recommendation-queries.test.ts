@@ -19,8 +19,8 @@ const firstFixture: Recommendation = {
 const secondFixture: Recommendation = {
   slug: "second-fixture",
   name: "Second Fixture",
-  kind: "activity",
-  area: "Ballard",
+  kind: "dessert",
+  area: "Fremont",
   summary: "A second fixture so lookup has to discriminate.",
   why: "It exists so a miss is distinguishable from a hit.",
   tags: [],
