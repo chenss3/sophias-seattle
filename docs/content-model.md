@@ -26,7 +26,7 @@ File order carries editorial intent. There is no sort order in the domain layer.
 | `area`       | yes      | Where it is.                                                                                  |
 | `summary`    | yes      | One sentence a stranger can skim in a list.                                                   |
 | `why`        | yes      | Sophia's reasoning, in her voice.                                                             |
-| `tags`       | yes      | What it is good for. May be empty.                                                            |
+| `tags`       | yes      | What it is good for, or what characterises it. May be empty.                                  |
 | `notes`      | no       | Practical guidance, such as "go early, it fills up".                                          |
 | `provenance` | yes      | Always `"sophia-curated"` in this file.                                                       |
 
@@ -53,17 +53,27 @@ Visitor-added items and external suggestions will get their own types and their 
 Classification uses two independent axes, because "what it is" and "what it is good for" are different questions. Collapsing them into a single tag list would make coherent filtering impossible later.
 
 - `kind` -- what a recommendation **is**. Required, exactly one value.
-- `tags` -- what a recommendation is **good for**. Required to be present, may be empty, may hold several values.
+- `tags` -- what a recommendation is **good for**, or what **characterises** it. Required to be present, may be empty, may hold several values.
+
+Tags cover both senses deliberately. Occasion tags such as `date-night` and `quick-meal` answer "when would I go here"; character tags such as `hidden-gem`, `great-service`, and `worth-the-wait` answer "what is this place like". Both are useful for finding a recommendation, and a seven-entry catalog does not justify a third axis to separate them.
+
+The bar for a tag is that it helps someone **find** a recommendation, not merely that it is true about one. Details specific to a single place -- a signature dish, a rotating menu, a second location -- belong in `summary`, `why`, or `notes`. A tag used by exactly one recommendation forever is a link, not a facet.
 
 `area` is named for location generally rather than "neighborhood", so it can also describe places outside Seattle proper, such as a day trip.
 
 All three are closed TypeScript unions rather than free strings. A typo like `"Capitol hill"` would silently create a duplicate facet in a future filter; a union catches it at compile time at no runtime cost.
 
+### `area` holds a single value
+
+Some recommendations have more than one location. Molly Moon's is the current example: it is recorded under `Capitol Hill`, and `notes` lists the other shops. One multi-location entry does not justify making `area` an array and complicating every future filter, but the limitation is real -- a visitor filtering by area will not see every place they could actually reach. Revisit if several entries end up in the same position.
+
 ## Growing the unions
 
-The current union values are deliberately minimal. They are not a taxonomy design; they are the smallest set the model and its tests need.
+Union values are grounded in real content. They are not a taxonomy designed up front; they are the set the published catalog actually uses.
 
-Add a value when the recommendation that needs it is being added, in the same pull request. That keeps the vocabulary grounded in real content instead of guesses. Adding a value is a one-line change.
+Add a value when the recommendation that needs it is being added, in the same pull request. Remove a value when nothing uses it any more. Keeping unused values around invents a vocabulary the catalog has not earned.
+
+Prefer reusing an existing tag over introducing a near-synonym. The tag vocabulary should stay small enough to read at a glance.
 
 ## Validation
 
