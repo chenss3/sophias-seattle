@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 import { recommendations } from "@/content/recommendations";
@@ -17,50 +17,27 @@ describe("Home", () => {
     ).toHaveAttribute("href", "/recommendations");
   });
 
-  it("shows a short taste drawn from the top of the catalog", () => {
-    render(<Home />);
-
-    const featured = within(
-      screen.getByRole("region", { name: "A few to start with" }),
-    ).getAllByRole("heading", { level: 3 });
-
-    expect(featured.map((heading) => heading.textContent)).toEqual(
-      recommendations.slice(0, 3).map((one) => one.name),
-    );
-  });
-
-  it("leads each preview with Sophia's reasoning rather than the name", () => {
-    render(<Home />);
-
-    const preview = screen
-      .getByRole("heading", { level: 3, name: recommendations[0].name })
-      .closest("li");
-
-    expect(preview).not.toBeNull();
-    const reasoning = within(preview as HTMLElement).getByText(
-      /I came here my first week in Seattle/,
-    );
-
-    expect(
-      reasoning.compareDocumentPosition(
-        within(preview as HTMLElement).getByRole("heading", { level: 3 }),
-      ) & Node.DOCUMENT_POSITION_FOLLOWING,
-    ).toBeTruthy();
-  });
-
-  it("links each preview to its recommendation", () => {
+  it("introduces the site in Sophia's words", () => {
     render(<Home />);
 
     expect(
-      screen.getByRole("link", { name: recommendations[0].name }),
-    ).toHaveAttribute("href", `/recommendations/${recommendations[0].slug}`);
+      screen.getByText(
+        "All my Seattle recs in one place, so I can finally stop making the same list every time someone visits.",
+      ),
+    ).toBeInTheDocument();
   });
 
-  it("does not show the whole catalog", () => {
+  it("does not browse recommendations, so the catalog owns that job alone", () => {
     render(<Home />);
 
-    expect(
-      screen.queryByRole("heading", { name: "Hellenika Cultured Creamery" }),
-    ).not.toBeInTheDocument();
+    for (const recommendation of recommendations) {
+      expect(screen.queryByText(recommendation.name)).not.toBeInTheDocument();
+    }
+  });
+
+  it("offers exactly one way forward", () => {
+    render(<Home />);
+
+    expect(screen.getAllByRole("link")).toHaveLength(1);
   });
 });

@@ -30,6 +30,9 @@
   /* Quiet surfaces for metadata, tags, and practical notes. */
   --color-surface-quiet: #ced1f8;
 
+  /* The third card visual tone. Mauve, so the browse grid is not one colour. */
+  --color-surface-warm: #ecd2e0;
+
   /* Primary action and selected facet state. */
   --color-accent: #ffa5d6;
 

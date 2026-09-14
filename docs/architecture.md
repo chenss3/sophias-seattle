@@ -42,13 +42,13 @@ Runtime schema validation is unnecessary while trusted, typed content is compile
 
 ## Routes
 
-| Route                     | Purpose                                                                                                            |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `/`                       | A deliberately minimal doorway plus a small taste of the catalog. More product functionality will live here later. |
-| `/recommendations`        | The primary browse experience, with server-side filtering driven entirely by URL search parameters.                |
-| `/recommendations/[slug]` | A single recommendation, with Sophia's `why` as the hero.                                                          |
+| Route                     | Purpose                                                                                                          |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `/`                       | A landing page. It frames what the product is and sends the visitor to the catalog. It shows no recommendations. |
+| `/recommendations`        | The primary browse experience, a card grid with server-side filtering driven entirely by URL search parameters.  |
+| `/recommendations/[slug]` | A single recommendation, with Sophia's `why` as the hero.                                                        |
 
-ADR 0003 records the filtering URL contract.
+ADR 0003 records the filtering URL contract. ADR 0004 records the browse presentation.
 
 ## Rendering and state
 

@@ -69,9 +69,12 @@ Text and interactive controls meet WCAG AA. The pastels may fall below that floo
 | `--color-surface`       | Raised content panels.                                 |
 | `--color-surface-soft`  | The `why` panel, and hover on primary actions.         |
 | `--color-surface-quiet` | Secondary chips and quiet metadata surfaces.           |
+| `--color-surface-warm`  | The third browse-card visual tone.                     |
 | `--color-accent`        | Primary actions and the selected filter state.         |
 | `--color-edge`          | Default hairline border.                               |
-| `--color-edge-strong`   | Emphasis border on the `why` panel.                    |
+| `--color-edge-strong`   | Emphasis border on the `why` panel, and card hover.    |
+
+`--color-surface-warm` and `--color-edge` are the same mauve. They are separate tokens because they mean different things: one is a surface a card visual region can be filled with, the other is a hairline. Binding a border token to a fill would make the next change to either one ambiguous.
 
 `--color-edge-strong` is too light to carry a focus indicator, so focus outlines use `--color-ink`. Add a token when a real screen needs one, not before.
 
@@ -83,9 +86,11 @@ Two constraints matter more than the rest:
 
 **Recommendation content stays easy to scan and read.** Decoration sits around the content, not on top of it.
 
-**Sophia's `why` is visually prominent.** Her reasoning is the core value of the product, as `docs/product.md` states. It should not be styled as a secondary detail below the practical facts. If a layout buries the `why`, the layout is wrong.
+**Sophia's `why` is visually prominent.** Her reasoning is the core value of the product, as `docs/product.md` states. On a detail page it is the centrepiece and must not be styled as a secondary detail below the practical facts. If a detail layout buries the `why`, the layout is wrong.
 
-Avoid turning the catalog into a generic grid of interchangeable travel cards. Seven strong opinions presented with character will serve a visitor better than seven uniform tiles.
+Browse and detail do different jobs, and this is the one place they diverge. Browse is for deciding what to open, so a card carries a short extract of the `why` rather than the whole thing. That is a matter of length, not of demotion: the extract is still Sophia's words, still above the tags, and still the reason a visitor clicks.
+
+A grid of cards is the right shape for that job, so the earlier instruction to avoid one no longer applies. What it was protecting against does: a grid of interchangeable tiles that could belong to any travel site. The things that keep this grid from becoming that are the pastel visual region, Sophia's voice on every card, and the absence of scores, ratings, rankings, and position numbers. These are seven places a friend recommends, not a leaderboard, and nothing in the interface may imply an ordering beyond her editorial file order.
 
 ## Illustration and art direction
 
@@ -99,18 +104,23 @@ Do not create art directories or placeholder assets ahead of time. Asset structu
 
 ### Reserved art regions
 
-The first three screens name their art regions in a source comment at the point the art would go. Each is an optional layout region at the edge of a layout, never inside a component's internals, so the interface is complete without any of them:
+The visitor screens name their art regions in a source comment at the point the art would go. Each is an optional layout region at the edge of a layout, never inside a component's internals, so the interface is complete without any of them:
 
-| Region                | Location                                                    |
-| --------------------- | ----------------------------------------------------------- |
-| `hero`, `hero-accent` | Behind and beside the home page title block                 |
-| `catalog-banner`      | A decorative band above the catalog list                    |
-| `entry-accent`        | A sticker-like mark on a browse entry                       |
-| `detail-header`       | Beside the detail page title                                |
-| `why-panel-accent`    | The `why` panel on a detail page. The highest value region. |
-| `notes-mark`          | Beside the practical notes block                            |
-| `empty-state`         | Above the no-results and not-found messages                 |
-| `footer-motif`        | A small Seattle motif in the footer                         |
+| Region                | Location                                                                     |
+| --------------------- | ---------------------------------------------------------------------------- |
+| `hero`, `hero-accent` | Behind and beside the home page title block                                  |
+| `home-poster`         | The panel beside the home page hero copy. Sized for a Sophia-created poster. |
+| `catalog-banner`      | A decorative band above the catalog grid                                     |
+| `card-visual`         | The top region of a browse card                                              |
+| `detail-header`       | Beside the detail page title                                                 |
+| `why-panel-accent`    | The `why` panel on a detail page                                             |
+| `notes-mark`          | Beside the practical notes block                                             |
+| `empty-state`         | Above the no-results and not-found messages                                  |
+| `footer-motif`        | A small Seattle motif in the footer                                          |
+
+`home-poster` and `why-panel-accent` are the two highest value placements. The poster is the first thing a visitor sees and the region the homepage layout is built around; the `why` panel accent is where a small character reinforces that a person is speaking.
+
+`card-visual` is the one region that is currently filled rather than empty. A card with a blank rectangle at the top reads as a broken image, not as honest space, so until artwork exists the region is a pastel surface toned by the recommendation's `kind`. Varying the tone keeps the grid from reading as one repeated block. The tone is derived from data the recommendation model already holds, so no field exists in anticipation of art, and real artwork replaces what sits inside the region without changing the card or the model.
 
 ## Typography
 

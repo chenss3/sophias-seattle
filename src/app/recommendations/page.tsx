@@ -12,7 +12,7 @@ import {
   CatalogResultSummary,
   FacetFilters,
 } from "@/features/recommendations/facet-filters";
-import { RecommendationEntry } from "@/features/recommendations/recommendation-entry";
+import { RecommendationCard } from "@/features/recommendations/recommendation-card";
 import { CatalogEmptyState } from "@/features/recommendations/catalog-empty-state";
 
 const copy = placeholderSiteCopy.catalog;
@@ -33,7 +33,7 @@ export default async function RecommendationsPage({
   const matches = filterRecommendations(recommendations, filters);
 
   return (
-    <main id="main" className="mx-auto w-full max-w-3xl px-5 py-12 sm:px-6">
+    <main id="main" className="mx-auto w-full max-w-6xl px-5 py-12 sm:px-6">
       <header className="bg-surface-soft relative overflow-hidden rounded-[2rem] px-6 py-10 sm:px-9">
         {/*
           Optional art region: `catalog-banner`. A decorative band may sit
@@ -43,7 +43,7 @@ export default async function RecommendationsPage({
         <h1 className="font-display text-ink text-3xl leading-tight sm:text-4xl">
           {copy.heading}
         </h1>
-        <p className="text-ink mt-3 max-w-xl text-base leading-relaxed">
+        <p className="text-ink mt-3 max-w-2xl text-base leading-relaxed">
           {copy.intro}
         </p>
       </header>
@@ -63,9 +63,12 @@ export default async function RecommendationsPage({
       {matches.length === 0 ? (
         <CatalogEmptyState />
       ) : (
-        <ul aria-label={copy.heading} className="mt-6 flex flex-col gap-6">
+        <ul
+          aria-label={copy.heading}
+          className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
+        >
           {matches.map((recommendation) => (
-            <RecommendationEntry
+            <RecommendationCard
               key={recommendation.slug}
               recommendation={recommendation}
               filters={filters}

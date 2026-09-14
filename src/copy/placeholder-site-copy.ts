@@ -22,17 +22,17 @@ export const placeholderSiteCopy = {
       "All my Seattle recs in one place, so I can finally stop making the same list every time someone visits.",
     // Supplied by Sophia. Verbatim.
     primaryAction: "Browse my recs",
-    featuredHeading: "A few to start with",
-    featuredFooterLink: "See every recommendation",
   },
   catalog: {
     heading: "Recommendations",
+    // Supplied by Sophia. Verbatim.
     intro:
-      "Filter by what something is, where it is, or what it is good for. Sophia's reasoning sits with every entry.",
+      "Browse all my Seattle recs and filter based on what you\u2019re in the mood for, what area you\u2019ll be in, or what sounds good to you.",
     filtersLabel: "Filters",
-    activeFiltersLabel: "Active filters",
+    kindFacetLabel: "What it is",
+    areaFacetLabel: "Where",
+    tagFacetLabel: "Vibe",
     resetLabel: "Start over",
-    entryAction: "Read the full reasoning",
     emptyHeading: "Nothing matches these filters",
     emptyBody:
       "Try removing one of the filters, or start over to see the whole catalog.",
@@ -40,7 +40,7 @@ export const placeholderSiteCopy = {
   detail: {
     whyHeading: "Why Sophia recommends it",
     notesHeading: "Good to know",
-    tagsHeading: "Good for",
+    tagsHeading: "Vibe",
     keepBrowsingHeading: "Keep browsing",
     provenanceLabel: "Sophia-curated recommendation",
     backLabel: "Back to recommendations",

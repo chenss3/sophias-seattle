@@ -93,6 +93,7 @@ describe("recommendation detail", () => {
   it("links each tag into a filtered catalog view", async () => {
     await renderDetail(flourBox.slug);
 
+    expect(screen.getByRole("heading", { name: "Vibe" })).toBeInTheDocument();
     expect(
       screen.getByRole("link", {
         name: "Browse recommendations tagged worth the wait",

@@ -11,7 +11,7 @@ async function renderCatalog(
   render(await RecommendationsPage({ searchParams: Promise.resolve(params) }));
 }
 
-function entryNames(): string[] {
+function cardNames(): string[] {
   const list = screen.queryByRole("list", { name: "Recommendations" });
 
   if (list === null) {
@@ -20,25 +20,24 @@ function entryNames(): string[] {
 
   return within(list)
     .getAllByRole("heading", { level: 2 })
-    .map((heading) => heading.textContent ?? "");
+    .map((heading) => heading.textContent?.replace(/\s*→$/, "") ?? "");
 }
 
-function entryFor(name: string): HTMLElement {
-  const heading = screen.getByRole("heading", { level: 2, name });
-  const entry = heading.closest("li");
+function cardFor(name: string): HTMLElement {
+  const card = screen.getByRole("link", { name }).closest("li");
 
-  if (entry === null) {
-    throw new Error(`No catalog entry found for ${name}`);
+  if (card === null) {
+    throw new Error(`No catalog card found for ${name}`);
   }
 
-  return entry;
+  return card;
 }
 
 describe("recommendations catalog", () => {
   it("lists every curated recommendation when nothing is filtered", async () => {
     await renderCatalog();
 
-    expect(entryNames()).toEqual(recommendations.map((one) => one.name));
+    expect(cardNames()).toEqual(recommendations.map((one) => one.name));
     expect(
       screen.getByText(
         `Showing all ${recommendations.length} recommendations.`,
@@ -46,23 +45,26 @@ describe("recommendations catalog", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows Sophia's reasoning ahead of the summary within an entry", async () => {
+  it("gives each card a taste of Sophia's reasoning", async () => {
     await renderCatalog({ kind: "bakery" });
 
-    const entry = entryFor("The Flour Box");
-    const reasoning = within(entry).getByText(/Delicious filled brioche/);
-    const summary = within(entry).getByText(/Small bakery specializing in/);
+    expect(
+      within(cardFor("The Flour Box")).getByText(/Delicious filled brioche/),
+    ).toBeInTheDocument();
+  });
+
+  it("shows what a recommendation is and where it is", async () => {
+    await renderCatalog({ kind: "bakery" });
 
     expect(
-      reasoning.compareDocumentPosition(summary) &
-        Node.DOCUMENT_POSITION_FOLLOWING,
-    ).toBeTruthy();
+      within(cardFor("The Flour Box")).getByText(/bakery.*Hillman City/),
+    ).toBeInTheDocument();
   });
 
   it("narrows to a single kind", async () => {
     await renderCatalog({ kind: "dessert" });
 
-    expect(entryNames()).toEqual([
+    expect(cardNames()).toEqual([
       "Molly Moon's Homemade Ice Cream",
       "Hellenika Cultured Creamery",
     ]);
@@ -71,7 +73,7 @@ describe("recommendations catalog", () => {
   it("combines repeated values on one axis with OR", async () => {
     await renderCatalog({ kind: ["bakery", "dessert"] });
 
-    expect(entryNames()).toEqual([
+    expect(cardNames()).toEqual([
       "The Flour Box",
       "Molly Moon's Homemade Ice Cream",
       "Hellenika Cultured Creamery",
@@ -81,19 +83,19 @@ describe("recommendations catalog", () => {
   it("combines separate axes with AND", async () => {
     await renderCatalog({ kind: "dessert", area: "Pike Place" });
 
-    expect(entryNames()).toEqual(["Hellenika Cultured Creamery"]);
+    expect(cardNames()).toEqual(["Hellenika Cultured Creamery"]);
   });
 
   it("filters by tag", async () => {
     await renderCatalog({ tag: "vegan-friendly" });
 
-    expect(entryNames()).toEqual(["Kin Len Thai Night Bites"]);
+    expect(cardNames()).toEqual(["Kin Len Thai Night Bites"]);
   });
 
   it("ignores filter values the catalog does not offer", async () => {
     await renderCatalog({ kind: "food-truck", area: "Ballard" });
 
-    expect(entryNames()).toEqual(recommendations.map((one) => one.name));
+    expect(cardNames()).toEqual(recommendations.map((one) => one.name));
   });
 
   it("reports the active filters alongside the match count", async () => {
@@ -117,17 +119,63 @@ describe("recommendations catalog", () => {
     );
   });
 
-  it("does not wrap a whole entry in a single link", async () => {
+  it("makes each card a single click target into the recommendation", async () => {
     await renderCatalog({ kind: "bakery" });
 
-    expect(entryFor("The Flour Box").closest("a")).toBeNull();
+    const links = within(cardFor("The Flour Box")).getAllByRole("link");
+
+    expect(links).toHaveLength(1);
+    expect(links[0]).toHaveAccessibleName("The Flour Box");
+  });
+
+  it("shows tags on a card as quiet labels rather than filter links", async () => {
+    await renderCatalog({ kind: "bakery" });
+
+    const card = cardFor("The Flour Box");
+
+    expect(within(card).getByText("worth the wait")).toBeInTheDocument();
+    expect(
+      within(card).queryByRole("link", { name: /filter/i }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("keeps what something is on the page as its own control", async () => {
+    await renderCatalog();
+
+    const kinds = screen.getByRole("heading", { name: "What it is" });
+
+    expect(kinds).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: "Add filter: bakery" }),
+    ).toHaveAttribute("href", "/recommendations?kind=bakery");
+  });
+
+  it("puts the larger axes behind their own compact controls", async () => {
+    await renderCatalog();
+
+    expect(screen.getByRole("heading", { name: "Where" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Vibe" })).toBeInTheDocument();
+  });
+
+  it("opens an axis that already has a selection", async () => {
+    await renderCatalog({ area: "Pike Place" });
+
+    const where = screen
+      .getByRole("heading", { name: "Where" })
+      .closest("details");
+    const vibe = screen
+      .getByRole("heading", { name: "Vibe" })
+      .closest("details");
+
+    expect(where).toHaveAttribute("open");
+    expect(vibe).not.toHaveAttribute("open");
   });
 
   it("offers a pill that removes an active filter", async () => {
     await renderCatalog({ kind: "dessert" });
 
     expect(
-      screen.getAllByRole("link", { name: "Remove filter: dessert" })[0],
+      screen.getByRole("link", { name: "Remove filter: dessert" }),
     ).toHaveAttribute("href", "/recommendations");
   });
 
@@ -135,7 +183,7 @@ describe("recommendations catalog", () => {
     await renderCatalog({ kind: "dessert" });
 
     expect(
-      screen.getAllByRole("link", { name: "Add filter: Pike Place" })[0],
+      screen.getByRole("link", { name: "Add filter: Pike Place" }),
     ).toHaveAttribute("href", "/recommendations?kind=dessert&area=Pike+Place");
   });
 
@@ -150,7 +198,7 @@ describe("recommendations catalog", () => {
   it("explains an empty result and offers a way back", async () => {
     await renderCatalog({ kind: "bakery", area: "Pike Place" });
 
-    expect(entryNames()).toEqual([]);
+    expect(cardNames()).toEqual([]);
     expect(
       screen.getByRole("heading", { name: "Nothing matches these filters" }),
     ).toBeInTheDocument();
