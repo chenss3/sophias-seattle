@@ -50,7 +50,7 @@ export default function RootLayout({
         </a>
 
         <header className="border-edge border-b">
-          <div className="mx-auto flex w-full max-w-3xl items-center justify-between gap-4 px-5 py-5 sm:px-6">
+          <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-5 py-5 sm:px-6">
             <Link
               href="/"
               className="font-display text-ink focus-visible:outline-ink rounded-sm text-lg focus-visible:outline-2 focus-visible:outline-offset-2"
@@ -69,7 +69,7 @@ export default function RootLayout({
         <div className="flex-1">{children}</div>
 
         <footer className="border-edge border-t">
-          <div className="mx-auto w-full max-w-3xl px-5 py-8 sm:px-6">
+          <div className="mx-auto w-full max-w-6xl px-5 py-8 sm:px-6">
             {/*
               Optional art region: `footer-motif`. A small Seattle motif may sit
               beside this note later. Nothing is rendered until real artwork

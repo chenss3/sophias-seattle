@@ -6,7 +6,16 @@
  * docs/content-model.md.
  */
 
+import type { RecommendationKind } from "@/domain/recommendations/recommendation";
+
 const DEFAULT_EXCERPT_LENGTH = 200;
+
+/**
+ * The browse grid shows several cards side by side, so its excerpt is shorter
+ * than a full-width list would allow. Long enough to carry Sophia's voice,
+ * short enough that cards stay a scannable, even height.
+ */
+export const CARD_EXCERPT_LENGTH = 120;
 
 export type WhyExcerpt = {
   readonly text: string;
@@ -46,4 +55,27 @@ export function excerptWhy(
  */
 export function facetLabel(value: string): string {
   return value.replaceAll("-", " ");
+}
+
+/**
+ * The pastel surface a browse card's visual region uses until Sophia's
+ * artwork exists.
+ *
+ * Varying the tone by `kind` keeps the grid from reading as one wall of
+ * identical blocks, and it reads from data the recommendation model already
+ * has, so no field is added in anticipation of art. The region itself stays
+ * an optional edge of the card layout: real artwork replaces what sits inside
+ * it without touching this mapping or the card structure.
+ *
+ * The record is exhaustive over the union, so adding a kind is a compile
+ * error rather than a silent fallback to a default tone.
+ */
+const kindTones: Record<RecommendationKind, string> = {
+  restaurant: "bg-surface-soft",
+  bakery: "bg-surface-warm",
+  dessert: "bg-surface-quiet",
+};
+
+export function visualToneClass(kind: RecommendationKind): string {
+  return kindTones[kind];
 }

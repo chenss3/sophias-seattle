@@ -26,7 +26,7 @@ Filtering is entirely server-side and entirely expressed in the URL. Every filte
 - Browse works without JavaScript, every view is shareable, and the back button is correct for free.
 - **Both recommendation routes render dynamically rather than statically**, because both read `searchParams`. This is a deliberate deviation from the static-generation preference in `docs/architecture.md`. The catalog is in-memory, so the per-request cost is negligible. If the content source ever becomes expensive to read, this is the decision to revisit.
 - Adding a fourth axis means touching the URL contract, the filter predicate, and the facet panel. That is acceptable at this size and is a signal to generalize only if it happens repeatedly.
-- The filter panel is rendered twice, once inside a mobile `<details>` disclosure and once in a desktop panel, because `<details>` content cannot be reliably forced open at wide viewports across browsers. The hidden copy is `display: none`, so assistive technology sees one set of controls.
+- ~~The filter panel is rendered twice, once inside a mobile `<details>` disclosure and once in a desktop panel.~~ Superseded by ADR 0004. The hybrid filter layout renders one set of controls at every viewport, so the duplicate render and its cost are gone.
 
 ## Not included
 
