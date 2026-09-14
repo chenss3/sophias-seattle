@@ -8,7 +8,7 @@ This single-application architecture is intentional. It supplies routing, metada
 
 ## Repository boundaries
 
-The repository currently contains route-level application files, test setup, the recommendation domain model, and curated content. Future directories should be added when their first concrete implementation requires them, not pre-created as placeholders.
+The repository contains route-level application files, test setup, the recommendation domain model, curated content, feature components, reusable UI primitives, and placeholder interface copy. Future directories should be added when their first concrete implementation requires them, not pre-created as placeholders.
 
 Dependency direction is:
 
@@ -19,11 +19,12 @@ routes/pages -> feature components -> domain queries/types
      `-> curated content
 ```
 
-- `src/app` owns routes, layouts, metadata, and route-level composition.
+- `src/app` owns routes, layouts, metadata, and route-level composition. It is also the only place that may import `next/font`.
 - Domain code owns pure business rules and imports nothing: not React, not Next.js, not curated content. Queries take the data they operate on as parameters, so route code composes content with queries and tests can run against fixtures.
 - Curated content must satisfy domain TypeScript contracts and contain no rendering logic.
-- Feature components may depend on domain code and reusable UI primitives.
-- UI primitives must not know about recommendations or content provenance.
+- `src/features` holds feature components and the feature-level URL contract. They may depend on domain code and reusable UI primitives.
+- UI primitives in `src/components` must not know about recommendations or content provenance.
+- `src/copy` holds temporary interface copy that is not Sophia's voice and is awaiting her wording. It is deliberately not `src/content`, which is contractually Sophia-curated data. See `docs/content-model.md`.
 - `src/lib` is reserved for clearly named cross-cutting integrations or utilities and must not become a miscellaneous dumping ground.
 
 ## Content and provenance
@@ -39,24 +40,33 @@ Sophia-curated recommendations are immutable application input at runtime and ca
 
 Runtime schema validation is unnecessary while trusted, typed content is compiled with the application. Add validation only when a real runtime trust boundary appears.
 
+## Routes
+
+| Route                     | Purpose                                                                                                            |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `/`                       | A deliberately minimal doorway plus a small taste of the catalog. More product functionality will live here later. |
+| `/recommendations`        | The primary browse experience, with server-side filtering driven entirely by URL search parameters.                |
+| `/recommendations/[slug]` | A single recommendation, with Sophia's `why` as the hero.                                                          |
+
+ADR 0003 records the filtering URL contract.
+
 ## Rendering and state
 
 - Prefer server components and static generation for catalog content.
-- Add client components only for interactions that require browser state.
-- Use URL search parameters for shareable filtering.
+- Add client components only for interactions that require browser state. There are currently no client components.
+- Use URL search parameters for shareable filtering. Filtering is server-side: every filter control is a link, so browse works without JavaScript and every view is shareable and back-button correct.
+- Both recommendation routes read `searchParams`, so both render dynamically rather than statically. This is a deliberate trade for the URL-as-state contract. The catalog is in-memory, so the per-request cost is trivial. Revisit if the content source ever becomes expensive to read.
 - Do not add global state management until application-wide client state creates a demonstrated need.
 
 ## Styling
 
-Tailwind CSS is the styling foundation. Product work should define a small semantic token set and create reusable components only from concrete use. Avoid one-off arbitrary styles, a large component library, or a standalone design-system package.
-
-The temporary foundation page is not the product design system.
+Tailwind CSS is the styling foundation, configured through an `@theme` block in `src/app/globals.css` rather than a JavaScript config. The semantic token set is small and every token is used by a real screen; `docs/design.md` documents what each one means. Extract a reusable component only from concrete use. Avoid one-off arbitrary styles, a large component library, or a standalone design-system package.
 
 ## Testing
 
 Vitest and React Testing Library provide the test harness. Tests should prioritize domain rules and user-visible behavior, use accessible queries, and avoid snapshots or trivial rendering assertions unless they protect a meaningful contract.
 
-The bootstrap includes one small page test to prove the browser-like test environment is wired correctly. Product tests should focus primarily on recommendation behavior.
+Async server components are tested by awaiting the component function and rendering its result, passing `params` and `searchParams` as resolved promises. `notFound()` is asserted as a rejection.
 
 ## Deployment
 
