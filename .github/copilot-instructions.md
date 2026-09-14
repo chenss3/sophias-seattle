@@ -16,6 +16,10 @@
 - Create reusable UI primitives only after concrete product use demonstrates reuse. Keep Tailwind usage aligned with the repository's semantic tokens once those tokens exist.
 - Preserve provenance as a first-class boundary: Sophia-curated recommendations, visitor-added items, and external suggestions must never be conflated in types, storage, or presentation.
 
+## Design
+
+- Read and follow `docs/design.md` before doing visitor-facing UI work. It is the art direction for the product, and it governs styling, illustration, and when artwork may be introduced.
+
 ## Content and writing
 
 - When creating or editing Sophia-curated recommendation content, follow the editorial rules in `docs/content-model.md`. Preserve Sophia's voice, keep `why` solely grounded in Sophia-provided reasoning, and never invent personal opinions or experiences.
