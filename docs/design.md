@@ -60,7 +60,20 @@ Text and interactive controls meet WCAG AA. The pastels may fall below that floo
 
 ### Tokens
 
-Do not assign a full semantic token set yet. `docs/architecture.md` already establishes that product work defines a small token set from concrete use. The palette above is the raw material; the mapping from color to meaning should emerge from the real interface.
+`docs/architecture.md` establishes that product work defines a small token set from concrete use. The palette above is the raw material; the mapping from color to meaning emerged from the first visitor-facing screens and now lives in the `@theme` block in `src/app/globals.css`:
+
+| Token                   | Meaning                                                |
+| ----------------------- | ------------------------------------------------------ |
+| `--color-ink`           | The only text color. Opacity varies, the hue does not. |
+| `--color-canvas`        | Page background.                                       |
+| `--color-surface`       | Raised content panels.                                 |
+| `--color-surface-soft`  | The `why` panel, and hover on primary actions.         |
+| `--color-surface-quiet` | Secondary chips and quiet metadata surfaces.           |
+| `--color-accent`        | Primary actions and the selected filter state.         |
+| `--color-edge`          | Default hairline border.                               |
+| `--color-edge-strong`   | Emphasis border on the `why` panel.                    |
+
+`--color-edge-strong` is too light to carry a focus indicator, so focus outlines use `--color-ink`. Add a token when a real screen needs one, not before.
 
 ## Interface style
 
@@ -84,11 +97,35 @@ Copilot must not generate substitute artwork, add stock imagery, or introduce un
 
 Do not create art directories or placeholder assets ahead of time. Asset structure gets added when real artwork arrives.
 
+### Reserved art regions
+
+The first three screens name their art regions in a source comment at the point the art would go. Each is an optional layout region at the edge of a layout, never inside a component's internals, so the interface is complete without any of them:
+
+| Region                | Location                                                    |
+| --------------------- | ----------------------------------------------------------- |
+| `hero`, `hero-accent` | Behind and beside the home page title block                 |
+| `catalog-banner`      | A decorative band above the catalog list                    |
+| `entry-accent`        | A sticker-like mark on a browse entry                       |
+| `detail-header`       | Beside the detail page title                                |
+| `why-panel-accent`    | The `why` panel on a detail page. The highest value region. |
+| `notes-mark`          | Beside the practical notes block                            |
+| `empty-state`         | Above the no-results and not-found messages                 |
+| `footer-motif`        | A small Seattle motif in the footer                         |
+
 ## Typography
 
-The intended direction is a playful, rounded or characterful display typeface for major headings, paired with a clean, highly readable typeface for recommendation text and functional interface elements.
+A playful, rounded display typeface carries major headings; a clean, highly readable typeface carries recommendation text and functional interface elements.
 
-Do not choose or install fonts yet. Typography selection is a separate decision.
+| Role        | Face              | Used for                                                                               |
+| ----------- | ----------------- | -------------------------------------------------------------------------------------- |
+| Display     | M PLUS Rounded 1c | Site title, page titles, recommendation names, section headings, primary action labels |
+| Body and UI | DM Sans           | The `why`, summaries, notes, metadata, navigation, filters, buttons, links, footer     |
+
+Both are loaded through `next/font/google` in `src/app/layout.tsx` and exposed as the `--font-display` and `--font-sans` theme tokens. That is the only file that may import `next/font`.
+
+One rule is worth stating because it looks like an inconsistency: **the `why` is set in DM Sans, not the display face.** It is the most important text in the product, but it is also multi-sentence personal prose, and a rounded display face would cost readability at that length. Its prominence comes from size, measure, the panel it sits in, and the italic attribution beneath it.
+
+This pairing replaced an earlier Fredoka and Nunito Sans pairing, which read as too close to a children's website once it was on the real screens. The current pairing keeps the rounded warmth in the headings while letting the body text sit closer to neutral. Changing a typeface is a typography change only: sizes, spacing, layout, and colour stay as they are so the effect of the faces can be judged on its own.
 
 ## Personality
 

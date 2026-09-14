@@ -1,1 +1,41 @@
 @import "tailwindcss";
+
+/*
+ * Semantic tokens defined from the three real visitor screens, per
+ * docs/design.md and docs/architecture.md. Every token below is used by an
+ * existing screen. Do not add speculative tokens ahead of the interface that
+ * needs them.
+ *
+ * Colours come from the palette in docs/design.md. `--color-ink` is the only
+ * text colour in the system; the pastels are surface, accent, and decoration
+ * only and never carry text. Ink clears WCAG AA on every surface here.
+ */
+@theme {
+  --font-display:
+    var(--font-m-plus-rounded), ui-rounded, "Segoe UI", system-ui, sans-serif;
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+
+  /* The only text colour. 11.31:1 on canvas, 12.51:1 on surface. */
+  --color-ink: #3b2f45;
+
+  /* Page background. */
+  --color-canvas: #fff0f1;
+
+  /* Raised content surfaces. */
+  --color-surface: #ffffff;
+
+  /* Secondary raised surfaces, including the recommendation `why` panel. */
+  --color-surface-soft: #ffd6ee;
+
+  /* Quiet surfaces for metadata, tags, and practical notes. */
+  --color-surface-quiet: #ced1f8;
+
+  /* Primary action and selected facet state. */
+  --color-accent: #ffa5d6;
+
+  /* Hairline borders and soft dividers. */
+  --color-edge: #ecd2e0;
+
+  /* Stronger decorative edges and accents. */
+  --color-edge-strong: #a7abde;
+}

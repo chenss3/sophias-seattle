@@ -61,6 +61,14 @@ Sophia's voice is the product. These rules apply to anyone editing curated conte
 - **Invent nothing.** No fabricated experiences, preferences, factual claims, or endorsements.
 - **No em dashes** in recommendation content.
 
+## Interface copy
+
+The same "invent nothing" rule extends beyond the catalog. Headings, intros, empty states, and button labels are also the site speaking, and an agent writing them in a warm first person would be putting words in Sophia's mouth.
+
+Interface copy therefore lives in `src/copy/placeholder-site-copy.ts`, not in components and not in `src/content`. It is currently neutral and deliberately temporary, gathered in one file so Sophia can replace it in her own voice in a single pass. Nothing in it should read as her opinion until she has written it.
+
+`src/content` remains Sophia-curated data only.
+
 ## Classification
 
 Classification uses two independent axes, because "what it is" and "what it is good for" are different questions. Collapsing them into a single tag list would make coherent filtering impossible later.
