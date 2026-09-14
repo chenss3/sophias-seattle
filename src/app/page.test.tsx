@@ -13,7 +13,7 @@ describe("Home", () => {
       screen.getByRole("heading", { level: 1, name: "Sophia's Seattle" }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("link", { name: /Browse the recommendations/ }),
+      screen.getByRole("link", { name: /Browse my recs/ }),
     ).toHaveAttribute("href", "/recommendations");
   });
 

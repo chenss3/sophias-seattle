@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fredoka, Nunito_Sans } from "next/font/google";
+import { DM_Sans, M_PLUS_Rounded_1c } from "next/font/google";
 import Link from "next/link";
 
 import { placeholderSiteCopy } from "@/copy/placeholder-site-copy";
@@ -7,22 +7,22 @@ import { placeholderSiteCopy } from "@/copy/placeholder-site-copy";
 import "./globals.css";
 
 /**
- * Fredoka carries display and heading text; Nunito Sans carries body and
+ * M PLUS Rounded 1c carries display and heading text; DM Sans carries body and
  * functional interface text. See docs/design.md for the art direction and the
  * reasoning behind the pairing. Both load through `next/font` so the files are
  * self hosted and the layout does not shift as they arrive.
  */
-const fredoka = Fredoka({
+const mPlusRounded = M_PLUS_Rounded_1c({
   subsets: ["latin"],
-  weight: ["500", "600"],
-  variable: "--font-fredoka",
+  weight: ["500", "700"],
+  variable: "--font-m-plus-rounded",
   display: "swap",
 });
 
-const nunitoSans = Nunito_Sans({
+const dmSans = DM_Sans({
   subsets: ["latin"],
   style: ["normal", "italic"],
-  variable: "--font-nunito-sans",
+  variable: "--font-dm-sans",
   display: "swap",
 });
 
@@ -40,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${fredoka.variable} ${nunitoSans.variable}`}>
+    <html lang="en" className={`${mPlusRounded.variable} ${dmSans.variable}`}>
       <body className="bg-canvas text-ink flex min-h-screen flex-col font-sans antialiased">
         <a
           href="#main"

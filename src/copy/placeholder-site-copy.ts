@@ -1,25 +1,27 @@
 /**
- * PLACEHOLDER INTERFACE COPY. NOT SOPHIA'S VOICE.
+ * INTERFACE COPY. MOSTLY PLACEHOLDER, NOT SOPHIA'S VOICE.
  *
- * Every string here is temporary, neutral, functional text written to make the
- * interface complete. None of it was supplied by Sophia and none of it may be
+ * Strings marked `supplied by Sophia` are her own words and must not be
+ * rewritten, paraphrased, or polished. Everything else is temporary, neutral,
+ * functional text written to make the interface complete. None of that may be
  * presented as her opinion, memory, or endorsement.
  *
  * docs/content-model.md requires that Sophia's reasoning comes only from
  * Sophia. That rule does not stop at the edge of the catalog, so framing copy,
  * empty states, and error states are held to it too.
  *
- * Sophia's actual words live in `src/content/recommendations.ts` and are the
- * only text in the product written in her voice.
+ * Sophia's recommendation text lives in `src/content/recommendations.ts`.
  *
- * This module exists so all of it sits in one reviewable place. Replace these
- * strings with Sophia's own wording, then delete this notice.
+ * This module exists so all of it sits in one reviewable place. Replace the
+ * remaining strings with Sophia's own wording, then delete this notice.
  */
 export const placeholderSiteCopy = {
   home: {
+    // Supplied by Sophia. Verbatim.
     intro:
-      "A personal guide to Seattle. Every recommendation here was chosen by Sophia, and each one comes with her reasoning for it.",
-    primaryAction: "Browse the recommendations",
+      "All my Seattle recs in one place, so I can finally stop making the same list every time someone visits.",
+    // Supplied by Sophia. Verbatim.
+    primaryAction: "Browse my recs",
     featuredHeading: "A few to start with",
     featuredFooterLink: "See every recommendation",
   },

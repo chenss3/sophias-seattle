@@ -116,14 +116,16 @@ The first three screens name their art regions in a source comment at the point 
 
 A playful, rounded display typeface carries major headings; a clean, highly readable typeface carries recommendation text and functional interface elements.
 
-| Role        | Face        | Used for                                                                   |
-| ----------- | ----------- | -------------------------------------------------------------------------- |
-| Display     | Fredoka     | Page titles, recommendation names, section headings, primary action labels |
-| Body and UI | Nunito Sans | The `why`, summaries, notes, metadata, filter controls, footer             |
+| Role        | Face              | Used for                                                                               |
+| ----------- | ----------------- | -------------------------------------------------------------------------------------- |
+| Display     | M PLUS Rounded 1c | Site title, page titles, recommendation names, section headings, primary action labels |
+| Body and UI | DM Sans           | The `why`, summaries, notes, metadata, navigation, filters, buttons, links, footer     |
 
 Both are loaded through `next/font/google` in `src/app/layout.tsx` and exposed as the `--font-display` and `--font-sans` theme tokens. That is the only file that may import `next/font`.
 
-One rule is worth stating because it looks like an inconsistency: **the `why` is set in Nunito Sans, not Fredoka.** It is the most important text in the product, but it is also multi-sentence personal prose, and a rounded display face would cost readability at that length. Its prominence comes from size, measure, the panel it sits in, and the italic attribution beneath it.
+One rule is worth stating because it looks like an inconsistency: **the `why` is set in DM Sans, not the display face.** It is the most important text in the product, but it is also multi-sentence personal prose, and a rounded display face would cost readability at that length. Its prominence comes from size, measure, the panel it sits in, and the italic attribution beneath it.
+
+This pairing replaced an earlier Fredoka and Nunito Sans pairing, which read as too close to a children's website once it was on the real screens. The current pairing keeps the rounded warmth in the headings while letting the body text sit closer to neutral. Changing a typeface is a typography change only: sizes, spacing, layout, and colour stay as they are so the effect of the faces can be judged on its own.
 
 ## Personality
 
