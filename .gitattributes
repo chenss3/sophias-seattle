@@ -1,0 +1,4 @@
+# Normalize all text files to LF in the repository and in the working tree.
+# Without this, Windows core.autocrlf checks files out with CRLF, which makes
+# Prettier and CI disagree with each other about line endings.
+* text=auto eol=lf
